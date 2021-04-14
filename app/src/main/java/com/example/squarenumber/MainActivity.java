@@ -2,7 +2,7 @@ package com.example.squarenumber;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -25,19 +25,25 @@ public class MainActivity extends AppCompatActivity {
         button = findViewById(R.id.myButton);
 
         button.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("SetTextI18n")
             @Override
             public void onClick(View v) {
+
                 number = findViewById(R.id.myNumber);
-                long num = Long.parseLong(number.getText().toString());
-                if (num > 900000000){
+                try {
                     warning = findViewById(R.id.myWarning);
-                    warning.setText("Please Enter a value between 0 to 900,000,000");
-                } else {
-                    if (warning != null){
-                        warning.setText(null);
+                    long num = Long.parseLong(number.getText().toString());
+                    if (num > 900000000){
+                        warning.setText("Please Enter a value between 0 to 900,000,000");
+                    } else {
+                        if (warning != null){
+                            warning.setText(null);
+                        }
+                        num *= num;
+                        squared.setText(String.valueOf(num));
                     }
-                    num *= num;
-                    squared.setText(String.valueOf(num));
+                } catch (NumberFormatException e) {
+                    warning.setText("Please enter a number");
                 }
             }
         });
